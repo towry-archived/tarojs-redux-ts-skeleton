@@ -1,0 +1,18 @@
+.g-panel {
+  position: relative;
+  background-color: #FFFFFF;
+
+  $border-color: #EDEEEE;
+
+  &.attr-border-bottom {
+    border-bottom: 1px * 2 solid $border-color;
+  }
+
+  &.attr-border-top {
+    border-top: 1px * 2 solid $border-color;
+  }
+
+  &.attr-shadow {
+    box-shadow: 0 0.5px 0 0 rgb(237, 238, 238);
+  }
+}

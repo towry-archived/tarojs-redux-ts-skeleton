@@ -6,7 +6,9 @@ import Index from './pages/index'
 
 import store from './configureStore';
 
-import './app.less'
+import './styles/theme/index.scss';
+import './static/fonts/iconfont.css';
+import './app.scss'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -29,9 +31,10 @@ class App extends Component {
     ],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarBackgroundColor: '#106BA3',
+      navigationBarTitleText: 'App',
+      navigationBarTextStyle: 'white',
+      pageOrientation: 'auto',
     }
   }
 

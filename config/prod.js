@@ -1,8 +1,11 @@
+const constants = require('./weapp/constant.prod');
+
 module.exports = {
   env: {
     NODE_ENV: '"production"'
   },
   defineConstants: {
+    GLOBAL_VARS: constants,
   },
   weapp: {},
   h5: {

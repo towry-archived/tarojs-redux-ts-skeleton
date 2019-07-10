@@ -1,0 +1,12 @@
+@import "./styles/shared/index";
+
+// override iconfont fontsize
+.iconfont {
+  font-size: 16px * 2;
+}
+
+page {
+  font-size: 14px * 2;
+  color: #4B525C;
+  font-family: -apple-system-font, 'Helvetica Neue', Helvetica, sans-serif;
+}

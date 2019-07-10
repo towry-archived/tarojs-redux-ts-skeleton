@@ -1,18 +1,28 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
-import createRootReducer, { subscribeToStore } from './reducers';
-import { loadLocalState } from './utils/mutateLocalState';
+import createRootReducer from './reducers';
+import filter from 'redux-localstorage-filter';
+import persistState, { mergePersistedState } from 'redux-localstorage';
+import adapter from 'redux-localstorage/lib/adapters/localStorage';
+import localStorageAdapter from './utils/localStorage';
 
-// you can read initial state from localStorge etc.
-const initialState = loadLocalState();
+const initialState = undefined;
 
 const middlewares = [
   thunkMiddleware,
   createLogger(),
 ]
 
-const enhancers = [];
+const storage = compose(
+  // only cache app.
+  filter('app')
+)(adapter(localStorageAdapter));
+
+
+const enhancers = [
+  persistState(storage, '_redux_local_state'),
+];
 
 const composedEnhancers = compose(
   applyMiddleware(...middlewares),
@@ -20,11 +30,9 @@ const composedEnhancers = compose(
 )
 
 const store = createStore(
-  createRootReducer(),
+  createRootReducer(mergePersistedState()),
   initialState,
   composedEnhancers,
 )
-
-subscribeToStore(store);
 
 export default store;
