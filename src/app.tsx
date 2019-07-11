@@ -62,6 +62,10 @@ class App extends Component {
     // check auth.
   }
 
+  /**
+   * Do not login in app.
+   * Login on the first http request.
+   */
   login_ = () => {
     Taro.showLoading({
       title: 'Loading ..',

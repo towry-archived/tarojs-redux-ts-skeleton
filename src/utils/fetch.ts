@@ -3,10 +3,11 @@ import Taro from '@tarojs/taro';
 import createResponse from './createResponse';
 import Exception from './Exception';
 import ERR_TYPES from './ErrTypes';
+import { IResponse } from 'src/types/app';
 
 const assign = Object.assign;
 // interceptor to config the options.
-let optionInterceptor;
+let optionInterceptor: <T>(options: T) => T;
 let onErrorInterceptor = (err?: Error) => {
   return Promise.reject(err);
 };
@@ -15,9 +16,10 @@ export interface FetchOptions {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE" | "OPTIONS" | "HEAD" | "TRACE" | "CONNECT" | undefined;
   header?: any;
+  data?: any,
 }
 
-export default function fetch(options: FetchOptions) {
+export default function fetch(options: FetchOptions): Promise<IResponse> {
   options = assign({}, options, {
     header: assign({}, {
       'content-type': 'application/json',
@@ -28,8 +30,6 @@ export default function fetch(options: FetchOptions) {
   if (typeof optionInterceptor === 'function') {
     options = optionInterceptor(options);
   }
-
-  console.log(options);
 
   const request = () => {
     return new Promise((res, rej) => {
@@ -68,22 +68,30 @@ export function setOnErrorInterceptor(fn) {
   onErrorInterceptor = fn;
 }
 
-export function get(url: string, options: FetchOptions = { method: 'GET', url: '', }) {
-  options.url = url;
-  return fetch(options);
+export function get(url: string, options: Partial<FetchOptions>): Promise<IResponse> {
+  return fetch(Object.assign({
+    url,
+    method: 'GET'
+  }, options));
 }
 
-export function post(url: string, options: FetchOptions = { method:'POST', url: '', }) {
-  options.url = url;
-  return fetch(options);
+export function post(url: string, options: Partial<FetchOptions>): Promise<IResponse> {
+  return fetch(Object.assign({
+    url,
+    method: 'POST',
+  }, options));
 }
 
-export function put(url: string, options: FetchOptions = { method: 'PUT', url: '', }) {
-  options.url = url;
-  return fetch(options);
+export function put(url: string, options: Partial<FetchOptions>): Promise<IResponse> {
+  return fetch(Object.assign({
+    url,
+    method: 'PUT',
+  }, options));
 }
 
-export function del(url: string, options: FetchOptions = { method: 'DELETE', url: '', }) {
-  options.url = url;
-  return fetch(options);
+export function del(url: string, options: Partial<FetchOptions>): Promise<IResponse> {
+  return fetch(Object.assign({
+    url,
+    method: 'DELETE',
+  }, options));
 }

@@ -1,9 +1,10 @@
 
 import getAttr from './getAttr';
+import { IResponse } from '../types/app';
 
 const DEF_STATUS = 1;
 
-export default class Response {
+export default class Response implements IResponse {
   error_: Error | null;
   status_: number;
   data_: any;

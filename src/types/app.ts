@@ -16,3 +16,22 @@ export type IStoreState = {
   app: IAppState,
   counter: ICounterState,
 } | undefined;
+
+export interface User {
+  id: number;
+}
+
+export interface IResponse {
+  raw: any;
+  data: any;
+  error: Error | null;
+  status: number;
+  message: string;
+
+  clone(): IResponse;
+  unwrap(): any;
+  wrap(o: any): IResponse;
+  ok(): boolean;
+  get(key: string, defaultValue: any): any;
+  has(key: string): boolean;
+}
