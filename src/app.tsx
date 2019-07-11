@@ -6,6 +6,13 @@ import Index from './pages/index'
 
 import store from './configureStore';
 
+import {
+  setOptionInterceptor,
+  setOnErrorInterceptor,
+} from './utils/fetch';
+import configOptionInterceptor from './utils/configOptionInterceptor';
+import onResponseErrorInterceptor from './utils/onResponseErrorInterceptor';
+
 import './styles/theme/index.scss';
 import './static/fonts/iconfont.css';
 import './app.scss'
@@ -17,6 +24,19 @@ import './app.scss'
 // }
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+
+    configOptionInterceptor(() => {
+      return {
+        token: store.getState().app.token,
+      }
+    }, setOptionInterceptor);
+    setOnErrorInterceptor(err => {
+      return onResponseErrorInterceptor(err, this.login_);
+    });
+  }
 
   /**
    * 指定config的类型声明为: Taro.Config
@@ -38,7 +58,21 @@ class App extends Component {
     }
   }
 
-  componentDidMount () {}
+  componentDidMount () {
+    // check auth.
+  }
+
+  login_ = () => {
+    Taro.showLoading({
+      title: 'Loading ..',
+    });
+    // TODO
+
+    // try login automatically, if failed, go to the login page.
+    Taro.navigateTo({
+      url: '/pages/login/index'
+    });
+  }
 
   componentDidShow () {}
 

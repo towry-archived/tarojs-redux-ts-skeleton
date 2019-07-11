@@ -6,6 +6,7 @@ import filter from 'redux-localstorage-filter';
 import persistState, { mergePersistedState } from 'redux-localstorage';
 import adapter from 'redux-localstorage/lib/adapters/localStorage';
 import localStorageAdapter from './utils/localStorage';
+import { IStoreState } from './types/app'
 
 const initialState = undefined;
 
@@ -29,7 +30,7 @@ const composedEnhancers = compose(
   ...enhancers,
 )
 
-const store = createStore(
+const store = createStore<IStoreState, any, any, any>(
   createRootReducer(mergePersistedState()),
   initialState,
   composedEnhancers,

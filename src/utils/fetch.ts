@@ -6,7 +6,7 @@ import ERR_TYPES from './ErrTypes';
 
 const assign = Object.assign;
 // interceptor to config the options.
-let optionInterceptor = null;
+let optionInterceptor;
 let onErrorInterceptor = (err?: Error) => {
   return Promise.reject(err);
 };
@@ -68,26 +68,22 @@ export function setOnErrorInterceptor(fn) {
   onErrorInterceptor = fn;
 }
 
-export function get(url: string, options: FetchOptions) {
-  options.method = 'GET';
+export function get(url: string, options: FetchOptions = { method: 'GET', url: '', }) {
   options.url = url;
   return fetch(options);
 }
 
-export function post(url: string, options?: FetchOptions = {}) {
-  options.method = 'POST';
+export function post(url: string, options: FetchOptions = { method:'POST', url: '', }) {
   options.url = url;
   return fetch(options);
 }
 
-export function put(url: string, options?: FetchOptions) {
-  options.method = 'PUT';
+export function put(url: string, options: FetchOptions = { method: 'PUT', url: '', }) {
   options.url = url;
   return fetch(options);
 }
 
-export function del(url: string, options?: FetchOptions) {
-  options.method = 'DELETE';
+export function del(url: string, options: FetchOptions = { method: 'DELETE', url: '', }) {
   options.url = url;
   return fetch(options);
 }
