@@ -47,3 +47,9 @@ export type IDispatch = Dispatch<AnyAction | any>;
 export interface IReduxProps {
   dispatch: IDispatch;
 }
+
+export interface ISemVer {
+  major: number;
+  minor: number;
+  patch: number;
+}

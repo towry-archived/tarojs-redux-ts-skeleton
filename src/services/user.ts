@@ -79,9 +79,13 @@ export async function login(): Promise<any> {
     isLogining_ = true;
     try {
       let { user, authToken } = await tryLogin();
+      isLogining_ = false;
       loginQueue_.forEach(({ resolve }) => resolve({ user, authToken }));
+      loginQueue_ = [];
     } catch (e) {
+      isLogining_ = false;
       loginQueue_.forEach(({ reject }) => reject(e));
+      loginQueue_ = [];
     }
   }
 }
