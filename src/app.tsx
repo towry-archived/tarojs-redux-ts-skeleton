@@ -11,7 +11,7 @@ import {
 } from './utils/fetch';
 import configOptionInterceptor from './utils/configOptionInterceptor';
 import onResponseErrorInterceptor from './utils/onResponseErrorInterceptor';
-import { login } from './reducers/app';
+import { login, checkAuth } from './reducers/app';
 
 import './styles/theme/index.scss';
 import './static/fonts/iconfont.css';
@@ -59,9 +59,6 @@ class App extends Component {
     }
   }
 
-  componentDidMount () {
-    // check auth.
-  }
 
   /**
    * Do not login in app.
@@ -85,7 +82,14 @@ class App extends Component {
     }
   }
 
-  componentDidShow () {}
+  componentDidShow () {
+    // check auth.
+    store.dispatch(checkAuth()).then((valid: boolean) => {
+      if (!valid) {
+        this.login_();
+      }
+    })
+  }
 
   componentDidHide () {}
 

@@ -1,17 +1,36 @@
+import Taro from '@tarojs/taro';
+
 import {
   createReducer,
   createAction
 } from 'redux-act';
 import { login as loginService } from '../services/user';
-import { IDispatch } from '../types/app';
+import { IDispatch, IStoreState } from '../types/app';
 
 const INITIAL_STATE = {
-  token: null,
+  authToken: null,
   user: null,
 }
 
-export const setToken = createAction('set token', token => ({ token, }));
+export const setToken = createAction('set token', token => ({ authToken: token, }));
 export const setUser = createAction('set user', (user) => ({ user, }));
+
+export const checkAuth = () => {
+  return async(_: IDispatch, getState: () => IStoreState): Promise<boolean> => {
+    let state: IStoreState = getState();
+    if (!state || !state.app.authToken) {
+      return false;
+    }
+
+    // checksession
+    try {
+      await Taro.checkSession()
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+}
 
 export const login = () => {
   return async (dispatch: IDispatch): Promise<any> => {

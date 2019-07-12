@@ -10,7 +10,7 @@ export type IAnyValue = {
 
 
 export interface IAppState {
-  token: string | unknown;
+  authToken: string | unknown;
   user: unknown;
 }
 
