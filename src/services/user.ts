@@ -54,6 +54,7 @@ let loginQueue_: Array<{resolve: (o: any) => void, reject: (e: Error) => void}> 
 async function tryLogin() {
   log('request login code');
   const { code } = await Taro.login();
+  log('got login code: ', code);
 
   log('send login request to remote');
   const loginRes = await loginApi(code);

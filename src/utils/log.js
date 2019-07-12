@@ -4,7 +4,7 @@
   var exportedLog, formats, getOrderedMatches, hasMatches, log, makeArray, stringToArgs, _log;
 
   log = function() {
-    if (__DEV__) {
+    if (!__DEV__) {
       return;
     }
 
