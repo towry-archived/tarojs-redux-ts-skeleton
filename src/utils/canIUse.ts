@@ -1,6 +1,9 @@
 import Taro from '@tarojs/taro';
+import { ISemVer } from '../types/app';
+import Exception from './Exception';
+import ErrTypes from './ErrTypes';
 
-let _version:
+let _version: ISemVer;
 
 // Since v1.1.1
 export default function canIUse(what: string): boolean {
@@ -17,7 +20,7 @@ export default function canIUse(what: string): boolean {
     }
 
     _version = {
-      main: parseInt(version[0] || 0, 10),
+      major: parseInt(version[0] || 0, 10),
       minor: parseInt(version[1] || 0, 10),
       patch: parseInt(version[2] || 0, 10),
     };
@@ -27,14 +30,16 @@ export default function canIUse(what: string): boolean {
   let versionStruct = _version;
 
   if (
-    versionStruct.main < 1 ||
-    (versionStruct.main == 1 && versionStruct.minor < 1) ||
-    (versionStruct.main == 1 && versionStruct.minor == 1 && versionStruct.patch < 1)
+    versionStruct.major < 1 ||
+    (versionStruct.major == 1 && versionStruct.minor < 1) ||
+    (versionStruct.major == 1 && versionStruct.minor == 1 && versionStruct.patch < 1)
   ) {
-    // can not use canIUse api.
-    console.log("不支持使用canIUse", versionStruct);
-    return false;
+    if (what === 'canIUse') {
+      return false;
+    }
+
+    return true;
   }
 
-  return wx.canIUse(what);
+  return Taro.canIUse(what);
 }

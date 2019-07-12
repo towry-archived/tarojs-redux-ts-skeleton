@@ -42,16 +42,20 @@
  */
 
 import Taro from '@tarojs/taro';
-import Exception from 'src/utils/Exception';
-import ErrTypes from 'src/utils/ErrTypes';
+import Exception from '../utils/Exception';
+import ErrTypes from '../utils/ErrTypes';
 import { login as loginApi } from '../api/user';
+import log from '../utils/log';
 
 let isLogining_ = false;
 let loginQueue_: Array<{resolve: (o: any) => void, reject: (e: Error) => void}> = [];
 
 
 async function tryLogin() {
+  log('request login code');
   const { code } = await Taro.login();
+
+  log('send login request to remote');
   const loginRes = await loginApi(code);
 
   if (!loginRes.ok() || !loginRes.has('authToken')) {
@@ -79,13 +83,17 @@ export async function login(): Promise<any> {
     isLogining_ = true;
     try {
       let { user, authToken } = await tryLogin();
+
       isLogining_ = false;
       loginQueue_.forEach(({ resolve }) => resolve({ user, authToken }));
       loginQueue_ = [];
+
+      return { user, authToken };
     } catch (e) {
       isLogining_ = false;
       loginQueue_.forEach(({ reject }) => reject(e));
       loginQueue_ = [];
+      throw e;
     }
   }
 }

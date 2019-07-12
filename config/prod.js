@@ -6,6 +6,7 @@ module.exports = {
   },
   defineConstants: {
     GLOBAL_VARS: constants,
+    __DEV__: false,
   },
   weapp: {},
   h5: {

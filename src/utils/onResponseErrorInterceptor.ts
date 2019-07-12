@@ -4,7 +4,7 @@ import ErrTypes from './ErrTypes';
 export default function onErrorInterceptor(err, login) {
   return new Promise((res, rej) => {
     switch (err.type) {
-      case ErrTypes.API_INVALID_AUTH_CODE:
+      case ErrTypes.INVALID_AUTH_TOKEN:
         console.log("invalid auth token, do login");
         // do login.
         login().then(() => {

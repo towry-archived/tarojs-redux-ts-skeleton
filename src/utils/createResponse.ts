@@ -41,19 +41,15 @@ export default function createResponse(res): Response {
   }
 
   // invalid token ??
-  if (json.status === 10009 || json.status === 10010) {
+  if (json.errCode === 2) {
     response = new Response({ raw: res });
     response.error = new Exception(json.message || "Invalid token", ERR_TYPES.API_INVALID_AUTH_CODE);
     return response;
   }
 
-  if (json.status !== 200 && json.status != 0) {
-    if (json.status !== 500) {
-      let message = json.message || null;
-      response = new Response({ raw: res, message });
-      response.error = new Exception(message, ERR_TYPES.UNKNOWN);
-      return response;
-    }
+  if (json.errCode !== 0) {
+    response = new Response({ raw: res });
+    response.error = new Exception("Unknown error", ERR_TYPES.API_SERVER);
   }
 
   response = new Response({

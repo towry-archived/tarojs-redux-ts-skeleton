@@ -6,6 +6,8 @@ import {
 } from 'redux-act';
 import { login as loginService } from '../services/user';
 import { IDispatch, IStoreState } from '../types/app';
+import ErrTypes from '../utils/ErrTypes';
+import Exception from '../utils/Exception';
 
 const INITIAL_STATE = {
   authToken: null,
@@ -24,10 +26,9 @@ export const checkAuth = () => {
 
     // checksession
     try {
-      await Taro.checkSession()
-      return true;
+      return await Taro.checkSession()
     } catch (e) {
-      return false;
+      throw new Exception(e.message || e.errMsg, ErrTypes.WX_API_FAIL);
     }
   }
 }

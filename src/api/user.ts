@@ -4,7 +4,7 @@ import {
 import { IResponse } from 'src/types/app';
 
 export function login(code: string): Promise<IResponse> {
-  return post('/login', {
+  return post('/api/login', {
     data: {
       code,
     }

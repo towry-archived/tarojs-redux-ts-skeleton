@@ -16,6 +16,8 @@ import { login, checkAuth } from './reducers/app';
 import './styles/theme/index.scss';
 import './static/fonts/iconfont.css';
 import './app.scss'
+import Exception from './utils/Exception';
+import log from './utils/log';
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -75,10 +77,11 @@ class App extends Component {
       Taro.hideLoading();
     } catch (e) {
       Taro.hideLoading();
-
-      Taro.navigateTo({
-        url: '/pages/login/index'
-      });
+      Taro.showToast({
+        icon: 'none',
+        duration: 3500,
+        title: e.message,
+      })
     }
   }
 
@@ -87,7 +90,15 @@ class App extends Component {
     store.dispatch(checkAuth()).then((valid: boolean) => {
       if (!valid) {
         this.login_();
+      } else {
+        log('weixin session is valid');
       }
+    }).catch ((e: Exception) => {
+      Taro.showToast({
+        icon: 'none',
+        title: e.message,
+        duration: 3500,
+      })
     })
   }
 

@@ -11,6 +11,8 @@ export default keymirror({
   API_CLIENT: null,
   API_SERVER: null,
   // token 失效.
-  API_INVALID_AUTH_CODE: null,
+  INVALID_AUTH_TOKEN: null,
   ACTION_CANCEL: null,
+  NEED_UPGRADE_APP: null,
+  UNAUTHED_WX_API: null,
 })
