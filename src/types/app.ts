@@ -1,3 +1,9 @@
+import {
+  AnyAction,
+  Dispatch
+} from 'redux';
+
+
 export type IAnyValue = {
   [prop: string]: string;
 } | Array<any> | string | number;
@@ -34,4 +40,10 @@ export interface IResponse {
   ok(): boolean;
   get(key: string, defaultValue: any): any;
   has(key: string): boolean;
+}
+
+export type IDispatch = Dispatch<AnyAction | any>;
+
+export interface IReduxProps {
+  dispatch: IDispatch;
 }

@@ -3,7 +3,6 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { Provider } from '@tarojs/redux'
 
 import Index from './pages/index'
-
 import store from './configureStore';
 
 import {
@@ -12,6 +11,7 @@ import {
 } from './utils/fetch';
 import configOptionInterceptor from './utils/configOptionInterceptor';
 import onResponseErrorInterceptor from './utils/onResponseErrorInterceptor';
+import { login } from './reducers/app';
 
 import './styles/theme/index.scss';
 import './static/fonts/iconfont.css';
@@ -23,9 +23,10 @@ import './app.scss'
 //   require('nerv-devtools')
 // }
 
+
 class App extends Component {
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     configOptionInterceptor(() => {
@@ -33,7 +34,7 @@ class App extends Component {
         token: store.getState().app.token,
       }
     }, setOptionInterceptor);
-    setOnErrorInterceptor(err => {
+    setOnErrorInterceptor((err: Error) => {
       return onResponseErrorInterceptor(err, this.login_);
     });
   }
@@ -66,16 +67,22 @@ class App extends Component {
    * Do not login in app.
    * Login on the first http request.
    */
-  login_ = () => {
+  login_ = async () => {
     Taro.showLoading({
       title: 'Loading ..',
     });
-    // TODO
 
-    // try login automatically, if failed, go to the login page.
-    Taro.navigateTo({
-      url: '/pages/login/index'
-    });
+    try {
+      await store.dispatch(login());
+
+      Taro.hideLoading();
+    } catch (e) {
+      Taro.hideLoading();
+
+      Taro.navigateTo({
+        url: '/pages/login/index'
+      });
+    }
   }
 
   componentDidShow () {}
