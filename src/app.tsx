@@ -85,23 +85,6 @@ class App extends Component {
     }
   }
 
-  componentDidShow () {
-    // check auth.
-    store.dispatch(checkAuth()).then((valid: boolean) => {
-      if (!valid) {
-        this.login_();
-      } else {
-        log('weixin session is valid');
-      }
-    }).catch ((e: Exception) => {
-      Taro.showToast({
-        icon: 'none',
-        title: e.message,
-        duration: 3500,
-      })
-    })
-  }
-
   componentDidHide () {}
 
   componentDidCatchError () {}

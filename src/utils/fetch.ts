@@ -27,11 +27,11 @@ export default function fetch(options: FetchOptions): Promise<IResponse> {
     method: 'get',
   }, options);
 
-  if (typeof optionInterceptor === 'function') {
-    options = optionInterceptor(options);
-  }
-
   const request = () => {
+    if (typeof optionInterceptor === 'function') {
+      options = optionInterceptor(options);
+    }
+
     return new Promise((res, rej) => {
       Taro.request(options).then(httpRes => {
         let response = createResponse(httpRes);
