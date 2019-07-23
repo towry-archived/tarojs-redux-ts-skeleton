@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import { ISemVer } from '../types/app';
-import Exception from './Exception';
-import ErrTypes from './ErrTypes';
+// import Exception from './Exception';
+// import ErrTypes from './ErrTypes';
 
 let _version: ISemVer;
 
@@ -11,7 +11,7 @@ export default function canIUse(what: string): boolean {
   if (!_version) {
 
     let sysInfo = Taro.getSystemInfoSync();
-    let version = sysInfo.SDKVersion;
+    let version: string | any[] = sysInfo.SDKVersion;
 
     if (typeof version === 'string') {
       version = version.split('.');
